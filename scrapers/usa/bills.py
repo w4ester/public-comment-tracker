@@ -3,9 +3,9 @@ import lxml
 import pytz
 import re
 import scrapelib
-import xml.etree.ElementTree as ET
 
 from openstates.scrape import Bill, Scraper, VoteEvent, Event
+import defusedxml.ElementTree
 
 
 # NOTE: This is a US federal bill scraper designed to output bills in the
@@ -100,7 +100,7 @@ class USBillScraper(Scraper):
             "https://www.govinfo.gov/sitemap/bulkdata/BILLSTATUS/sitemapindex.xml"
         )
         sitemaps = self.get(sitemap_url).content
-        root = ET.fromstring(sitemaps)
+        root = defusedxml.ElementTree.fromstring(sitemaps)
 
         # if you want to test a bill:
         # yield from self.parse_bill('https://www.govinfo.gov/bulkdata/BILLSTATUS/116/hr/BILLSTATUS-116hr3884.xml')
@@ -118,7 +118,7 @@ class USBillScraper(Scraper):
 
     def parse_bill_list(self, url, start):
         sitemap = self.get(url).content
-        root = ET.fromstring(sitemap)
+        root = defusedxml.ElementTree.fromstring(sitemap)
         for row in root.findall("us:url", self.ns):
             date = datetime.datetime.fromisoformat(
                 self.get_xpath(row, "us:lastmod")[:-1]
@@ -133,7 +133,7 @@ class USBillScraper(Scraper):
 
     def parse_bill(self, url):
         xml = self.get(url).content
-        xml = ET.fromstring(xml)
+        xml = defusedxml.ElementTree.fromstring(xml)
 
         bill_num = self.get_xpath(xml, "bill/billNumber")
         if not bill_num:
