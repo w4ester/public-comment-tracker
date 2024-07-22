@@ -17,7 +17,7 @@ class MSCommitteeScraper(Scraper):
     def scrape_comm(self, chamber):
         url = "http://billstatus.ls.state.ms.us/htms/%s_cmtememb.xml" % chamber
         comm_page = self.get(url)
-        root = lxml.etree.fromstring(comm_page.content)
+        root = lxml.etree.fromstring(comm_page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         if chamber == "h":
             chamber = "lower"
         else:
