@@ -3,8 +3,8 @@ import csv
 from spatula import URL, CsvListPage, HtmlPage, CSS
 from openstates.models import ScrapePerson
 import re
-import requests
 import lxml.html
+from security import safe_requests
 
 # Regex compile for isolating variety of address formats on house detail pages
 addr_w_zip_re = re.compile(r"(.+)\s+(03\d{3})")
@@ -23,7 +23,7 @@ def scrape_house_vals(url):
     so the dictionary collection can be accessed to construct url for
     scraping each NH House member's detail page in HouseDetail.
     """
-    response = requests.get(url)
+    response = safe_requests.get(url)
     content = lxml.html.fromstring(response.content)
     dropdown_list = content.xpath(".//select[@name='ctl00$pageBody$ddlReps']//option")
     member_values = {}

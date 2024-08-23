@@ -1,9 +1,9 @@
 import re
-import requests
 import lxml.html
 from openstates.scrape import State
 from .bills import MABillScraper
 from .events import MAEventScraper
+from security import safe_requests
 
 
 class Massachusetts(State):
@@ -83,7 +83,7 @@ class Massachusetts(State):
 
     def get_session_list(self):
         doc = lxml.html.fromstring(
-            requests.get("https://malegislature.gov/Bills/Search", verify=False).text
+            safe_requests.get("https://malegislature.gov/Bills/Search", verify=False).text
         )
         sessions = doc.xpath(
             "//div[@data-refinername='lawsgeneralcourt']/div/label/text()"

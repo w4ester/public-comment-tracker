@@ -1,8 +1,8 @@
 import os
-import requests
 from openstates.scrape import State
 from .bills import INBillScraper
 from .events import INEventScraper
+from security import safe_requests
 
 settings = dict(SCRAPELIB_TIMEOUT=600)
 
@@ -179,6 +179,6 @@ class Indiana(State):
             "Accept": "application/json",
             "User-Agent": useragent,
         }
-        resp = requests.get("https://api.iga.in.gov/sessions", headers=headers)
+        resp = safe_requests.get("https://api.iga.in.gov/sessions", headers=headers)
         resp.raise_for_status()
         return [session["name"] for session in resp.json()["items"]]

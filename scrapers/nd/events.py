@@ -2,11 +2,11 @@ import re
 import pytz
 import logging
 import dateutil.parser
-import requests
 import lxml.html
 from spatula import HtmlPage
 from openstates.scrape import Scraper, Event
 from openstates.exceptions import EmptyScrape
+from security import safe_requests
 
 
 def time_is_earlier(new, current):
@@ -105,7 +105,7 @@ class BillNameScraper(HtmlPage):
         self.source = source
 
     def get_bill_name(self):
-        response = requests.get(self.source)
+        response = safe_requests.get(self.source)
         content = lxml.html.fromstring(response.content)
         try:
             bill_name_tag = content.xpath(".//div[@id='content']//h3")[0]

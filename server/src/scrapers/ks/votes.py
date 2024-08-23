@@ -5,6 +5,7 @@ import feedparser
 
 import lxml.html
 from openstates.scrape import Scraper, VoteEvent
+from security import safe_requests
 
 
 class KSVoteScraper(Scraper):
@@ -52,7 +53,7 @@ class KSVoteScraper(Scraper):
         # sometimes not
         try:
             self.info("Get {}".format(link))
-            text = requests.get(link).text
+            text = safe_requests.get(link).text
         except requests.exceptions.HTTPError as err:
             self.warning("{} fetching vote {}, skipping".format(err, link))
             return

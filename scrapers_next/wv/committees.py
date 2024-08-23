@@ -1,8 +1,8 @@
 import re
 from spatula import HtmlPage, HtmlListPage, CSS, URL, SkipItem
 from openstates.models import ScrapeCommittee
-import requests
 import lxml.html
+from security import safe_requests
 
 
 class UnknownSubCommFound(BaseException):
@@ -11,7 +11,7 @@ class UnknownSubCommFound(BaseException):
 
 
 def get_member_full_name(url, fallback_name):
-    response = requests.get(url)
+    response = safe_requests.get(url)
     content = lxml.html.fromstring(response.content)
     name_match = CSS("#wrapleftcolr > h2:nth-child(1)", min_items=0).match(content)
     fallback_name = " ".join(fallback_name.split()[1:])

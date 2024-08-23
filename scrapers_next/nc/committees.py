@@ -1,8 +1,8 @@
 from spatula import HtmlPage, HtmlListPage, CSS, XPath, SkipItem, SelectorError, URL
 from openstates.models import ScrapeCommittee
 import lxml.html
-import requests
 import re
+from security import safe_requests
 
 
 member_name_re = re.compile(r"(Senator\s+|Representative\s+)(.+)(\s+\(.+\))")
@@ -73,7 +73,7 @@ class CommitteeDetail(HtmlPage):
                     if url_name_dict.get(member_url):
                         name = url_name_dict[member_url]
                     else:
-                        response = requests.get(member_url, timeout=30)
+                        response = safe_requests.get(member_url, timeout=30)
                         page = lxml.html.fromstring(response.content)
                         raw_name = CSS("h1.section-title").match(page)[0].text
                         name = member_name_re.search(raw_name).groups()[1]

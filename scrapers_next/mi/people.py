@@ -1,8 +1,8 @@
 from spatula import HtmlListPage, JsonListPage, HtmlPage, CSS
 from openstates.models import ScrapePerson
-import requests
 import lxml.html
 import re
+from security import safe_requests
 
 
 class UnexpectedImageError(BaseException):
@@ -28,7 +28,7 @@ def get_gop_senate_images(url):
     The corresponding values are the `src` attribute of the `<img>` elements.
     """
     source = url
-    response = requests.get(source)
+    response = safe_requests.get(source)
     content = lxml.html.fromstring(response.content)
 
     images = {}

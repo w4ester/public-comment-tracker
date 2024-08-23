@@ -3,12 +3,12 @@ from dateutil.parser import ParserError
 import datetime
 import pytz
 import re
-import requests
 import lxml.html
 from openstates.scrape import Scraper, Event
 from utils import LXMLMixin
 from utils.events import match_coordinates
 from openstates.exceptions import EmptyScrape
+from security import safe_requests
 
 
 class UnknownBillIdFormatError(BaseException):
@@ -127,7 +127,7 @@ class NCEventScraper(Scraper, LXMLMixin):
                             #  but proper prefixes are one of the following:
                             #  {'SJR', 'HB', 'HR', 'SB', 'HJR', 'SR'}
                             bill_url = bill_row.get("href")
-                            bill_resp = requests.get(bill_url)
+                            bill_resp = safe_requests.get(bill_url)
                             bill_page = lxml.html.fromstring(bill_resp.content)
                             raw_bill_id = bill_page.xpath(
                                 ".//div[@class='col-12 col-sm-6 h2 text-center order-sm-2']/text()"
