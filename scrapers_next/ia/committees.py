@@ -153,7 +153,7 @@ class JointAppropriationsComm(HtmlPage):
         com_urls = [x.get("href") for x in appr_coms]
 
         for com_url in com_urls:
-            response = requests.get(com_url)
+            response = requests.get(com_url, timeout=60)
             content = lxml.html.fromstring(response.content)
             members_list = XPath(members_list_xpath).match(content)
 

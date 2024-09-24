@@ -27,7 +27,7 @@ class CommitteeList(JsonListPage):
         for each_comm in comm_resp["committeeList"]:
 
             committee_url = f"https://web.wyoleg.gov/LsoService/api/committeeDetail/{self.year}/{each_comm['ownerID']}"
-            committee_info = requests.get(committee_url).json()
+            committee_info = requests.get(committee_url, timeout=60).json()
 
             # name
             name = committee_info["commName"]

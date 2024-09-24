@@ -127,8 +127,8 @@ class Hawaii(State):
 
     def get_session_list(self):
         response = requests.get(
-            "https://www.capitol.hawaii.gov/session/archives/main.aspx", verify=False
-        ).content
+            "https://www.capitol.hawaii.gov/session/archives/main.aspx", verify=False, 
+        timeout=60).content
         page = lxml.html.fromstring(response)
         # page doesn't include current session, we need to add it
         sessions = page.xpath("//*[@name='ctl00$MainContent$yearList']/option/text()")

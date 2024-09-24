@@ -93,6 +93,6 @@ class NewJersey(State):
         return [
             s["display"]
             for s in requests.get(
-                "https://www.njleg.state.nj.us/api/downloads/sessions"
-            ).json()
+                "https://www.njleg.state.nj.us/api/downloads/sessions", 
+            timeout=60).json()
         ]

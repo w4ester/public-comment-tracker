@@ -87,7 +87,7 @@ class CommitteeList(HtmlListPage):
 
         for chamber, item in other_coms_info.items():
             for xpath, url in item.items():
-                self.root = html.fromstring(requests.get(url).content)
+                self.root = html.fromstring(requests.get(url, timeout=60).content)
                 all_committees[chamber] = XPath(xpath).match(self.root)
 
         for chamber, elems in all_committees.items():

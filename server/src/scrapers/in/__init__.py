@@ -179,6 +179,6 @@ class Indiana(State):
             "Accept": "application/json",
             "User-Agent": useragent,
         }
-        resp = requests.get("https://api.iga.in.gov/sessions", headers=headers)
+        resp = requests.get("https://api.iga.in.gov/sessions", headers=headers, timeout=60)
         resp.raise_for_status()
         return [session["name"] for session in resp.json()["items"]]

@@ -97,7 +97,7 @@ class CommitteeList(HtmlListPage):
     leg_council_type = "legislature"
 
     def extract_committees(self, url, comm_type):
-        document = requests.get(url).content
+        document = requests.get(url, timeout=60).content
         if comm_type in ["house", "senate"]:
             comm = XPath("//a[contains(@href, '/standingcommittees/')]").match(
                 fromstring(document)

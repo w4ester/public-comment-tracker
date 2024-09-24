@@ -23,7 +23,7 @@ def scrape_house_vals(url):
     so the dictionary collection can be accessed to construct url for
     scraping each NH House member's detail page in HouseDetail.
     """
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     content = lxml.html.fromstring(response.content)
     dropdown_list = content.xpath(".//select[@name='ctl00$pageBody$ddlReps']//option")
     member_values = {}

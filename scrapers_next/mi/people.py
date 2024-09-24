@@ -28,7 +28,7 @@ def get_gop_senate_images(url):
     The corresponding values are the `src` attribute of the `<img>` elements.
     """
     source = url
-    response = requests.get(source)
+    response = requests.get(source, timeout=60)
     content = lxml.html.fromstring(response.content)
 
     images = {}
