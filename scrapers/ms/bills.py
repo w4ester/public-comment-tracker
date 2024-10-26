@@ -56,7 +56,7 @@ class MSBillScraper(Scraper):
         )
 
         bill_dir_page = self.get(url)
-        root = lxml.etree.fromstring(bill_dir_page.content)
+        root = lxml.etree.fromstring(bill_dir_page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         for mr in root.xpath("//LASTACTION/MSRGROUP"):
             bill_id = mr.xpath("string(MEASURE)").replace(" ", "")
             if bill_id[0] == "S":
@@ -92,7 +92,7 @@ class MSBillScraper(Scraper):
             # Some pages have the (invalid) byte 11 sitting around. Just drop
             # them out. Might as well.
 
-            details_root = lxml.etree.fromstring(page)
+            details_root = lxml.etree.fromstring(page, parser=lxml.etree.XMLParser(resolve_entities=False))
             title = details_root.xpath("string(//SHORTTITLE)")
             title = "[No title given by state]" if title == "" else title
             longtitle = details_root.xpath("string(//LONGTITLE)")
