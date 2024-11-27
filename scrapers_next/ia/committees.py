@@ -1,8 +1,8 @@
 from spatula import XPath, URL, HtmlListPage, HtmlPage, SkipItem, SelectorError
 from openstates.models import ScrapeCommittee
-import requests
 import lxml.html
 import re
+from security import safe_requests
 
 
 """
@@ -153,7 +153,7 @@ class JointAppropriationsComm(HtmlPage):
         com_urls = [x.get("href") for x in appr_coms]
 
         for com_url in com_urls:
-            response = requests.get(com_url)
+            response = safe_requests.get(com_url)
             content = lxml.html.fromstring(response.content)
             members_list = XPath(members_list_xpath).match(content)
 

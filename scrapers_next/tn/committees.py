@@ -1,7 +1,7 @@
 from spatula import HtmlPage, HtmlListPage, XPath, URL, SkipItem
 from openstates.models import ScrapeCommittee
-import requests
 import lxml.html
+from security import safe_requests
 
 
 def get_parent_name(url):
@@ -11,12 +11,12 @@ def get_parent_name(url):
     Takes in string: url for the subcommittee's detail page.
     Returns string: name of the parent committee.
     """
-    sub_com_response = requests.get(url)
+    sub_com_response = safe_requests.get(url)
     sub_com_content = lxml.html.fromstring(sub_com_response.content)
     parent_url = sub_com_content.xpath(".//a[@class='button block icon-hammer']")[
         0
     ].get("href")
-    parent_response = requests.get(
+    parent_response = safe_requests.get(
         f"https://wapp.capitol.tn.gov/apps/CommitteeInfo/{parent_url}"
     )
     parent_content = lxml.html.fromstring(parent_response.content)

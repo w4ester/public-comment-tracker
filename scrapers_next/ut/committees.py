@@ -1,7 +1,7 @@
 from spatula import JsonListPage, URL
 import logging
 from openstates.models import ScrapeCommittee
-import requests
+from security import safe_requests
 
 
 class UnknownParentError(BaseException):
@@ -11,7 +11,7 @@ class UnknownParentError(BaseException):
 
 def get_membership_dict(url):
     membership = {}
-    response = requests.get(url)
+    response = safe_requests.get(url)
     for each_legislator in response.json()["legislators"]:
         member_id = each_legislator["id"]
         name = each_legislator["formatName"]

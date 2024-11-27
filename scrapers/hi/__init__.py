@@ -1,8 +1,8 @@
 import lxml.html
-import requests
 from openstates.scrape import State
 from .events import HIEventScraper
 from .bills import HIBillScraper
+from security import safe_requests
 
 settings = dict(SCRAPELIB_TIMEOUT=300)
 
@@ -126,7 +126,7 @@ class Hawaii(State):
     ]
 
     def get_session_list(self):
-        response = requests.get(
+        response = safe_requests.get(
             "https://www.capitol.hawaii.gov/session/archives/main.aspx", verify=False
         ).content
         page = lxml.html.fromstring(response)

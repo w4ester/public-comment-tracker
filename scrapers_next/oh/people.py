@@ -2,8 +2,8 @@ import re
 import attr
 from spatula import HtmlListPage, HtmlPage, CSS, URL, SelectorError
 from openstates.models import ScrapePerson
-import requests
 import lxml.html
+from security import safe_requests
 
 background_image_re = re.compile(r"background-image:url\((.*?)\)")
 senate_cap_sq_re = re.compile(r"(Sen.+Building)(1.+Square)(.+)(Col.+43215)")
@@ -139,7 +139,7 @@ class LegDetail(HtmlPage):
 
             # Senators only have address and phone listed on Contact page
             contact_url = f"{self.input.url}/contact"
-            response = requests.get(contact_url)
+            response = safe_requests.get(contact_url)
             content = lxml.html.fromstring(response.content)
 
             info_bar = content.xpath(".//div[@class='member-info-bar-value']")

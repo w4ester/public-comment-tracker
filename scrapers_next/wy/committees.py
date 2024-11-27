@@ -1,8 +1,8 @@
 from spatula import URL, JsonListPage
 import logging
 from openstates.models import ScrapeCommittee
-import requests
 import re
+from security import safe_requests
 
 
 class UnknownSubCommFound(BaseException):
@@ -27,7 +27,7 @@ class CommitteeList(JsonListPage):
         for each_comm in comm_resp["committeeList"]:
 
             committee_url = f"https://web.wyoleg.gov/LsoService/api/committeeDetail/{self.year}/{each_comm['ownerID']}"
-            committee_info = requests.get(committee_url).json()
+            committee_info = safe_requests.get(committee_url).json()
 
             # name
             name = committee_info["commName"]
