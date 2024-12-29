@@ -52,7 +52,7 @@ class KSVoteScraper(Scraper):
         # sometimes not
         try:
             self.info("Get {}".format(link))
-            text = requests.get(link).text
+            text = requests.get(link, timeout=60).text
         except requests.exceptions.HTTPError as err:
             self.warning("{} fetching vote {}, skipping".format(err, link))
             return

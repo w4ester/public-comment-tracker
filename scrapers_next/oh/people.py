@@ -139,7 +139,7 @@ class LegDetail(HtmlPage):
 
             # Senators only have address and phone listed on Contact page
             contact_url = f"{self.input.url}/contact"
-            response = requests.get(contact_url)
+            response = requests.get(contact_url, timeout=60)
             content = lxml.html.fromstring(response.content)
 
             info_bar = content.xpath(".//div[@class='member-info-bar-value']")

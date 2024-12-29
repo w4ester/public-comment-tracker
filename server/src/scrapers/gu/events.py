@@ -20,7 +20,7 @@ class GUEventScraper(Scraper):
 
         ical_url = "https://calendar.google.com/calendar/ical/webmaster%40guamlegislature.com/public/basic.ics"
 
-        ical = requests.get(ical_url).text
+        ical = requests.get(ical_url, timeout=60).text
         self.info("Parsing event feed. This may take a moment.")
         cal = Calendar(ical)
         for e in cal.events:

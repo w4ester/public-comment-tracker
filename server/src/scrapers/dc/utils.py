@@ -10,7 +10,7 @@ def api_request(path, **kwargs):
     url = "{}{}".format(API_BASE_URL, path)
     headers = dict(API_HEADERS)
     headers.update(kwargs.pop("headers", {}))
-    response = requests.post(url, headers=headers, **kwargs)
+    response = requests.post(url, headers=headers, **kwargs, timeout=60)
     response.raise_for_status()
     return decode_json(response.json())
 

@@ -11,7 +11,7 @@ class UnknownParentError(BaseException):
 
 def get_membership_dict(url):
     membership = {}
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     for each_legislator in response.json()["legislators"]:
         member_id = each_legislator["id"]
         name = each_legislator["formatName"]

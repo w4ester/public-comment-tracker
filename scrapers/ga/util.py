@@ -94,4 +94,4 @@ def get_token():
     token_url = (
         f"https://www.legis.ga.gov/api/authentication/token?key={key}&ms={timestamp}"
     )
-    return "Bearer " + requests.get(token_url).json()
+    return "Bearer " + requests.get(token_url, timeout=60).json()

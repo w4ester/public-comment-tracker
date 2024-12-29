@@ -80,7 +80,7 @@ class CommitteeList(HtmlListPage):
         stat_list_url = (
             XPath("//a[contains(text(), 'Statutory')]").match(self.root)[0].get("href")
         )
-        stat_response = requests.get(stat_list_url)
+        stat_response = requests.get(stat_list_url, timeout=60)
         stat_page = html.fromstring(stat_response.content)
         stat_comm_elements = XPath("//div[@class='grouping-wrapper']//span/a").match(
             stat_page
