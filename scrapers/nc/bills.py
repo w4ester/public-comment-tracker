@@ -456,7 +456,7 @@ class NCBillScraper(Scraper):
         url = f"https://www.ncleg.gov/Legislation/Bills/FiledBillsFeed/{session}/{chamber_abbr}"
 
         page = self.get(url).content
-        data = lxml.etree.fromstring(page)
+        data = lxml.etree.fromstring(page, parser=lxml.etree.XMLParser(resolve_entities=False))
 
         for item in data[0][4:]:
             bill_id = item[1].text
