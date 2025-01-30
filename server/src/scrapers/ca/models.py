@@ -13,6 +13,7 @@ from sqlalchemy.orm import backref, relation, foreign
 from sqlalchemy.ext.declarative import declarative_base
 
 from lxml import etree
+import lxml.etree
 
 Base = declarative_base()
 
@@ -93,8 +94,8 @@ class CABillVersion(Base):
     def xml(self):
         if "_xml" not in self.__dict__:
             self._xml = etree.fromstring(
-                self.bill_xml.encode("utf-8"), etree.XMLParser(recover=True)
-            )
+                self.bill_xml.encode("utf-8"), etree.XMLParser(recover=True), 
+            parser=lxml.etree.XMLParser(resolve_entities=False))
         return self._xml
 
     @property

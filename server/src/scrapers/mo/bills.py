@@ -349,7 +349,7 @@ class MOBillScraper(Scraper, LXMLMixin):
         bill_list_content = self.get(
             f"https://documents.house.mo.gov/xml/{session_id}-BillList.xml"
         )
-        bl_response = lxml.etree.fromstring(bill_list_content.content)
+        bl_response = lxml.etree.fromstring(bill_list_content.content, parser=lxml.etree.XMLParser(resolve_entities=False))
 
         for bill in bl_response.xpath("//BillXML"):
             bill_url = bill.xpath("./BillXMLLink/text()")[0]
@@ -360,7 +360,7 @@ class MOBillScraper(Scraper, LXMLMixin):
             bill_id = f"{bill_type} {bill_num}"
 
             bill_content = self.get(bill_url)
-            ib_response = lxml.etree.fromstring(bill_content.content)
+            ib_response = lxml.etree.fromstring(bill_content.content, parser=lxml.etree.XMLParser(resolve_entities=False))
 
             yield from self.parse_house_bill(
                 ib_response, bill_id, bill_year, bill_code, session
