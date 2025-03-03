@@ -6,6 +6,7 @@ import lxml.html
 from utils import LXMLMixin
 from openstates.scrape import Scraper, Event
 import requests
+from security import safe_requests
 
 
 strip_chars = ".,\t\n\r "
@@ -46,7 +47,7 @@ class CAEventWebScraper(Scraper, LXMLMixin):
         # senate website needs start_date and end_date
         # set it to a week
         upper_start_url = f"https://www.senate.ca.gov/calendar?startdate={start}&enddate={end}&committee=&committee-hearings=on"
-        html = requests.get(upper_start_url).text
+        html = safe_requests.get(upper_start_url).text
         page = lxml.html.fromstring(html)
 
         for date_row in page.xpath('//div[contains(@class, "calendarDayContainer")]'):

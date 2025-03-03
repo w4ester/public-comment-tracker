@@ -12,6 +12,7 @@ from utils import LXMLMixin
 import fitz
 import requests
 from urllib3.exceptions import InsecureRequestWarning
+from security import safe_requests
 
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -585,7 +586,7 @@ class MNBillScraper(Scraper, LXMLMixin):
                     "//div[contains(text(), 'Current bill text')]/a[1]"
                 )[0]
                 current_html_url = current.xpath("@href")[0]
-                current_response = requests.get(current_html_url, verify=False)
+                current_response = safe_requests.get(current_html_url, verify=False)
                 current_content = lxml.html.fromstring(current_response.content)
 
                 pdf_xpath = ".//a[contains(text(), 'Authors and Status')]/../following-sibling::td/a"
@@ -619,7 +620,7 @@ class MNBillScraper(Scraper, LXMLMixin):
                     if href:
                         vers_html_url = href[0]
                         vers_html_url = format_version_url(vers_html_url)
-                        vers_response = requests.get(vers_html_url, verify=False)
+                        vers_response = safe_requests.get(vers_html_url, verify=False)
                         vers_content = lxml.html.fromstring(vers_response.content)
                         vers_pdf_url = vers_content.xpath(pdf_xpath)[0].xpath("@href")[
                             0

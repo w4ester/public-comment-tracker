@@ -1,9 +1,8 @@
 from openstates.scrape import State
 from .bills import MPBillScraper
 from .events import MPEventScraper
-
-import requests
 import lxml
+from security import safe_requests
 
 
 class NorthernMarianaIslands(State):
@@ -35,7 +34,7 @@ class NorthernMarianaIslands(State):
             "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) "
             "Chrome/108.0.0.0 Safari/537.36"  # noqa
         }
-        page = requests.get(url, headers=cf_headers).content
+        page = safe_requests.get(url, headers=cf_headers).content
         page = lxml.html.fromstring(page)
 
         return page.xpath("//select[@name='legsID']/option/@value")

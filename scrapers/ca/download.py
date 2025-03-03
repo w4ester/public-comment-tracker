@@ -18,9 +18,8 @@ from datetime import datetime
 from os.path import join, split
 from functools import partial
 from collections import namedtuple
-
-import requests
 import MySQLdb
+from security import safe_requests
 
 
 MYSQL_HOST = os.environ.get("MYSQL_HOST", "localhost")
@@ -261,7 +260,7 @@ def db_create():
 
 def get_contents():
     resp = {}
-    html = requests.get(BASE_URL, verify=False).text
+    html = safe_requests.get(BASE_URL, verify=False).text
     doc = lxml.html.fromstring(html)
     # doc.make_links_absolute(BASE_URL)
     rows = doc.xpath("//table/tr")
