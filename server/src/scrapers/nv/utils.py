@@ -1,6 +1,7 @@
 import re
 import tempfile
 import subprocess
+from security import safe_command
 
 
 def convert_pdf(filename, type="xml"):
@@ -11,8 +12,7 @@ def convert_pdf(filename, type="xml"):
         "html": ["pdftohtml", "-stdout", filename],
     }
     try:
-        pipe = subprocess.Popen(
-            commands[type], stdout=subprocess.PIPE, close_fds=True
+        pipe = safe_command.run(subprocess.Popen, commands[type], stdout=subprocess.PIPE, close_fds=True
         ).stdout
     except OSError as e:
         raise EnvironmentError(
