@@ -11,14 +11,14 @@ def get_parent_name(url):
     Takes in string: url for the subcommittee's detail page.
     Returns string: name of the parent committee.
     """
-    sub_com_response = requests.get(url)
+    sub_com_response = requests.get(url, timeout=60)
     sub_com_content = lxml.html.fromstring(sub_com_response.content)
     parent_url = sub_com_content.xpath(".//a[@class='button block icon-hammer']")[
         0
     ].get("href")
     parent_response = requests.get(
-        f"https://wapp.capitol.tn.gov/apps/CommitteeInfo/{parent_url}"
-    )
+        f"https://wapp.capitol.tn.gov/apps/CommitteeInfo/{parent_url}", 
+    timeout=60)
     parent_content = lxml.html.fromstring(parent_response.content)
     parent_name = parent_content.xpath(".//h1//text()")[-1].replace("\r\n", "").strip()
 

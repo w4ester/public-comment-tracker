@@ -5,7 +5,7 @@ import logging
 
 def url_xpath(url, path, verify=True, user_agent=None):
     headers = {"user-agent": user_agent} if user_agent else None
-    res = requests.get(url, verify=verify, headers=headers)
+    res = requests.get(url, verify=verify, headers=headers, timeout=60)
     try:
         doc = lxml.html.fromstring(res.text)
     except Exception as e:

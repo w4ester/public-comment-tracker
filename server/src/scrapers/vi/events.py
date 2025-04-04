@@ -43,7 +43,7 @@ class VIEventScraper(Scraper):
                 "navigator_click": "true",
             }
 
-            res = requests.post("https://legvi.org/wp-admin/admin-ajax.php", data=data)
+            res = requests.post("https://legvi.org/wp-admin/admin-ajax.php", data=data, timeout=60)
             page = json.loads(res.content)
             page = lxml.html.fromstring(page["month"])
 

@@ -127,7 +127,7 @@ class NCEventScraper(Scraper, LXMLMixin):
                             #  but proper prefixes are one of the following:
                             #  {'SJR', 'HB', 'HR', 'SB', 'HJR', 'SR'}
                             bill_url = bill_row.get("href")
-                            bill_resp = requests.get(bill_url)
+                            bill_resp = requests.get(bill_url, timeout=60)
                             bill_page = lxml.html.fromstring(bill_resp.content)
                             raw_bill_id = bill_page.xpath(
                                 ".//div[@class='col-12 col-sm-6 h2 text-center order-sm-2']/text()"

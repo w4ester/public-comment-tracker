@@ -46,7 +46,7 @@ class CAEventWebScraper(Scraper, LXMLMixin):
         # senate website needs start_date and end_date
         # set it to a week
         upper_start_url = f"https://www.senate.ca.gov/calendar?startdate={start}&enddate={end}&committee=&committee-hearings=on"
-        html = requests.get(upper_start_url).text
+        html = requests.get(upper_start_url, timeout=60).text
         page = lxml.html.fromstring(html)
 
         for date_row in page.xpath('//div[contains(@class, "calendarDayContainer")]'):
@@ -184,7 +184,7 @@ class CAEventWebScraper(Scraper, LXMLMixin):
         lower_start_url = (
             "https://www.assembly.ca.gov/schedules-publications/assembly-daily-file"
         )
-        html = requests.get(lower_start_url).text
+        html = requests.get(lower_start_url, timeout=60).text
         page = lxml.html.fromstring(html)
 
         for date_row in page.xpath("//h5[@class='date']"):

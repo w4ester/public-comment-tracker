@@ -105,7 +105,7 @@ class BillNameScraper(HtmlPage):
         self.source = source
 
     def get_bill_name(self):
-        response = requests.get(self.source)
+        response = requests.get(self.source, timeout=60)
         content = lxml.html.fromstring(response.content)
         try:
             bill_name_tag = content.xpath(".//div[@id='content']//h3")[0]

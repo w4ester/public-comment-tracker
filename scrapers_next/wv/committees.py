@@ -11,7 +11,7 @@ class UnknownSubCommFound(BaseException):
 
 
 def get_member_full_name(url, fallback_name):
-    response = requests.get(url)
+    response = requests.get(url, timeout=60)
     content = lxml.html.fromstring(response.content)
     name_match = CSS("#wrapleftcolr > h2:nth-child(1)", min_items=0).match(content)
     fallback_name = " ".join(fallback_name.split()[1:])
