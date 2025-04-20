@@ -3,12 +3,12 @@ import ftplib
 import re
 import time
 from urllib import parse as urlparse
-import xml.etree.cElementTree as etree
 
 from openstates.scrape import Scraper, Bill
 from openstates.scrape.base import ScrapeError
 from utils import LXMLMixin
 from .actions import Categorizer
+import defusedxml.ElementTree
 
 
 class TXBillScraper(Scraper, LXMLMixin):
@@ -96,7 +96,7 @@ class TXBillScraper(Scraper, LXMLMixin):
 
     def scrape_bill(self, session, history_url):
         history_xml = self.get(history_url).text
-        root = etree.fromstring(history_xml)
+        root = defusedxml.ElementTree.fromstring(history_xml)
 
         bill_title = root.findtext("caption")
         if bill_title is None or "Bill does not exist" in history_xml:
