@@ -93,7 +93,7 @@ class CABillVersion(Base):
     def xml(self):
         if "_xml" not in self.__dict__:
             self._xml = etree.fromstring(
-                self.bill_xml.encode("utf-8"), etree.XMLParser(recover=True)
+                self.bill_xml.encode("utf-8"), etree.XMLParser(recover=True, resolve_entities=False)
             )
         return self._xml
 
