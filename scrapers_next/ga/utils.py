@@ -1,6 +1,6 @@
-import requests
 from hashlib import sha512
 import time
+from security import safe_requests
 
 
 def get_key(timestamp):
@@ -30,4 +30,4 @@ def get_token():
     token_url = (
         f"https://www.legis.ga.gov/api/authentication/token?key={key}&ms={timestamp}"
     )
-    return "Bearer " + requests.get(token_url).json()
+    return "Bearer " + safe_requests.get(token_url).json()

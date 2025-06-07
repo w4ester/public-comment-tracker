@@ -2,7 +2,7 @@ from lxml import html
 from spatula import URL, HtmlListPage, HtmlPage, XPath, SelectorError, SkipItem
 from openstates.models import ScrapeCommittee
 from lxml.html import fromstring
-import requests
+from security import safe_requests
 
 
 class SubcommitteeFound(BaseException):
@@ -97,7 +97,7 @@ class CommitteeList(HtmlListPage):
     leg_council_type = "legislature"
 
     def extract_committees(self, url, comm_type):
-        document = requests.get(url).content
+        document = safe_requests.get(url).content
         if comm_type in ["house", "senate"]:
             comm = XPath("//a[contains(@href, '/standingcommittees/')]").match(
                 fromstring(document)

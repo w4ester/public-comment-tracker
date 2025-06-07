@@ -4,8 +4,8 @@ import socket
 import urllib.error
 import time
 import suds
-import requests
 from hashlib import sha512
+from security import safe_requests
 
 
 logging.getLogger("suds").setLevel(logging.WARNING)
@@ -94,4 +94,4 @@ def get_token():
     token_url = (
         f"https://www.legis.ga.gov/api/authentication/token?key={key}&ms={timestamp}"
     )
-    return "Bearer " + requests.get(token_url).json()
+    return "Bearer " + safe_requests.get(token_url).json()

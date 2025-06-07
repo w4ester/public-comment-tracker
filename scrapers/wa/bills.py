@@ -12,6 +12,7 @@ from utils import LXMLMixin
 
 import lxml.etree
 import lxml.html
+from security import safe_requests
 
 
 class WABillScraper(Scraper, LXMLMixin):
@@ -607,7 +608,7 @@ class WABillScraper(Scraper, LXMLMixin):
         # to avoid auto-retries
         try:
             self.info(url)
-            page = requests.get(url)
+            page = safe_requests.get(url)
             page = lxml.etree.fromstring(page.content)
         except (requests.exceptions.HTTPError, lxml.etree.XMLSyntaxError):
             # WA fires a 500 error if there's no sessions laws for a bill
@@ -641,7 +642,7 @@ class WABillScraper(Scraper, LXMLMixin):
         # to avoid auto-retries
         try:
             self.info(url)
-            page = requests.get(url)
+            page = safe_requests.get(url)
         except requests.exceptions.HTTPError:
             # WA fires a 500 error if there's no sessions laws for a bill
             return

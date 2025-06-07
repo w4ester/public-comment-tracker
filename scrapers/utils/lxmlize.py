@@ -1,11 +1,12 @@
 import requests
 import lxml.html
 import logging
+from security import safe_requests
 
 
 def url_xpath(url, path, verify=True, user_agent=None):
     headers = {"user-agent": user_agent} if user_agent else None
-    res = requests.get(url, verify=verify, headers=headers)
+    res = safe_requests.get(url, verify=verify, headers=headers)
     try:
         doc = lxml.html.fromstring(res.text)
     except Exception as e:
