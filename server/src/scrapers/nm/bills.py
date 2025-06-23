@@ -9,6 +9,7 @@ import lxml.html
 import lxml.etree
 
 from openstates.scrape import Scraper, Bill
+from security import safe_command
 
 
 def session_slug(session):
@@ -62,8 +63,7 @@ class NMBillScraper(Scraper):
         """using mdbtools, read access tables as CSV"""
         commands = ["mdb-export", self.mdbfile, table]
         try:
-            pipe = subprocess.Popen(
-                commands, stdout=subprocess.PIPE, close_fds=True
+            pipe = safe_command.run(subprocess.Popen, commands, stdout=subprocess.PIPE, close_fds=True
             ).stdout
             csvfile = csv.DictReader([line.decode("utf8") for line in pipe.readlines()])
             return csvfile
