@@ -180,7 +180,7 @@ class SouthDakota(State):
 
     def get_session_list(self):
         api_url = "https://sdlegislature.gov/api/Sessions/"
-        data = json.loads(requests.get(api_url).content)
+        data = json.loads(requests.get(api_url, timeout=60).content)
 
         sessions = []
         for row in data:

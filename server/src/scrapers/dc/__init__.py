@@ -89,7 +89,7 @@ class DistrictOfColumbia(State):
             "http://lims.dccouncil.gov/api/v2/PublicData/CouncilPeriods",
             headers=headers,
             verify=False,
-        )
+        timeout=60)
         resp.raise_for_status()
         sessions = []
         for session in resp.json():

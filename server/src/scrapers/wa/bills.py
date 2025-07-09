@@ -607,7 +607,7 @@ class WABillScraper(Scraper, LXMLMixin):
         # to avoid auto-retries
         try:
             self.info(url)
-            page = requests.get(url)
+            page = requests.get(url, timeout=60)
             page = lxml.etree.fromstring(page.content)
         except (requests.exceptions.HTTPError, lxml.etree.XMLSyntaxError):
             # WA fires a 500 error if there's no sessions laws for a bill
@@ -641,7 +641,7 @@ class WABillScraper(Scraper, LXMLMixin):
         # to avoid auto-retries
         try:
             self.info(url)
-            page = requests.get(url)
+            page = requests.get(url, timeout=60)
         except requests.exceptions.HTTPError:
             # WA fires a 500 error if there's no sessions laws for a bill
             return

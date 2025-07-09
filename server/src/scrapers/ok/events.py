@@ -126,8 +126,8 @@ class OKEventScraper(Scraper):
         headers = {"origin": "https://www.okhouse.gov", "user-agent": "openstates.org"}
 
         page = requests.post(
-            url=url, data=json.dumps(post_data), headers=headers, allow_redirects=True
-        ).content
+            url=url, data=json.dumps(post_data), headers=headers, allow_redirects=True, 
+        timeout=60).content
         page = json.loads(page)
 
         if offset == 0 and len(page["events"]["data"]) == 0:

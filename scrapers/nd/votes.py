@@ -76,7 +76,7 @@ class NDVoteScraper(Scraper):
     def scrape(self, session=None):
         logging.getLogger("scrapelib").setLevel(logging.WARNING)
         initial_vote_source = "http://www.ndlegis.gov/rollcall/rollcall.htm"
-        response = requests.get(initial_vote_source)
+        response = requests.get(initial_vote_source, timeout=60)
         content = lxml.html.fromstring(response.content)
         date_range = content.xpath(".//select[@name='legislativeDate']//option")
         for date in date_range:
