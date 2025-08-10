@@ -264,7 +264,7 @@ class WABillScraper(Scraper, LXMLMixin):
             except scrapelib.HTTPError:
                 continue  # future years.
 
-            page = lxml.etree.fromstring(page.content)
+            page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
             for leg_info in xpath(page, "//wa:LegislationInfo"):
                 bill_id = xpath(leg_info, "string(wa:BillId)")
                 bill_num = xpath(leg_info, "number(wa:BillNumber)")
@@ -301,7 +301,7 @@ class WABillScraper(Scraper, LXMLMixin):
         )
 
         page = self.get(url)
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         page = xpath(page, "//wa:Legislation")[0]
 
         xml_chamber = xpath(page, "string(wa:OriginalAgency)")
@@ -368,7 +368,7 @@ class WABillScraper(Scraper, LXMLMixin):
         )
 
         page = self.get(url)
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
 
         first = True
         for sponsor in xpath(page, "//wa:Sponsor/wa:Name"):
@@ -395,7 +395,7 @@ class WABillScraper(Scraper, LXMLMixin):
             self.warning(e)
             return
 
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         for hearing in xpath(page, "//wa:Hearing"):
             action_date = xpath(hearing, "string(wa:CommitteeMeeting/wa:Date)")
             action_date = datetime.datetime.strptime(action_date, "%Y-%m-%dT%H:%M:%S")
@@ -530,7 +530,7 @@ class WABillScraper(Scraper, LXMLMixin):
         except requests.exceptions.HTTPError:
             return {}
 
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
 
         for row in xpath(page, "//wa:LegislativeStatus"):
             action_text = xpath(row, "string(wa:HistoryLine)")
@@ -550,7 +550,7 @@ class WABillScraper(Scraper, LXMLMixin):
             "GetRollCalls?billNumber=%s&biennium=%s" % (bill_num, self.biennium)
         )
         page = self.get(url)
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
 
         for rc in xpath(page, "//wa:RollCall"):
             motion = xpath(rc, "string(wa:Motion)")
@@ -608,7 +608,7 @@ class WABillScraper(Scraper, LXMLMixin):
         try:
             self.info(url)
             page = requests.get(url)
-            page = lxml.etree.fromstring(page.content)
+            page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         except (requests.exceptions.HTTPError, lxml.etree.XMLSyntaxError):
             # WA fires a 500 error if there's no sessions laws for a bill
             return
@@ -645,7 +645,7 @@ class WABillScraper(Scraper, LXMLMixin):
         except requests.exceptions.HTTPError:
             # WA fires a 500 error if there's no sessions laws for a bill
             return
-        page = lxml.etree.fromstring(page.content)
+        page = lxml.etree.fromstring(page.content, parser=lxml.etree.XMLParser(resolve_entities=False))
         for row in xpath(page, "//wa:RcwCiteAffected"):
             cite = xpath(row, "string(wa:RcwCite)").strip()
 
